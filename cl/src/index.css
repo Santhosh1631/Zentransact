@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap");
+
+* html {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-bg-welcome {
+  background-color:#2E0249;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, #6cb0f0 0, transparent 50%), 
+    radial-gradient(at 100% 0%, #F806CC 0, transparent 50%);
+}
+
+.gradient-bg-services {
+  background-color:#2E0249;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 100%, hsla(225,39%,25%,1) 0, transparent 50%);
+}
+
+.gradient-bg-transactions {
+  background-color: #2E0249;
+  background-image: 
+    radial-gradient(at 0% 100%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,25%,1) 0, transparent 50%);
+}
+
+.gradient-bg-footer {
+  background-color: #2E0249;
+  background-image: 
+    radial-gradient(at 0% 100%, hsl(250, 17%, 7%) 0, transparent 53%), 
+    radial-gradient(at 50% 150%, rgb(38, 118, 141) 0, transparent 50%);
+}
+
+.blue-glassmorphism {
+  background: hwb(250 17% 62% / 0.4);
+
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.bx{
+  background: hwb(226 15% 65% / 0.4); /* Adjust the alpha (fourth value) for transparency */
+  padding: 20px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px); /* Apply background blur */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* white glassmorphism */
+.white-glassmorphism {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.white-glassmorphism1 {
+  background: rgba(255, 255, 255, 0.707);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(238, 58, 226, 0.619);
+}
+
+.eth-card {
+  background-color:#2E0249;
+  background-image: 
+    radial-gradient(at 83% 67%, #12f391 0, transparent 58%), 
+    radial-gradient(at 67% 20%, #f31bec 0, transparent 59%), 
+    radial-gradient(at 88% 35%, #1abfcb 0, transparent 50%), 
+    radial-gradient(at 31% 91%, #a91441 0, transparent 52%), 
+    radial-gradient(at 27% 71%, #ca50f7 0, transparent 49%), 
+    radial-gradient(at 74% 89%, #000000 0, transparent 51%), 
+    radial-gradient(at 53% 75%, #ffffff 0, transparent 45%);
+}
+
+.text-gradient {
+  background-color: #fff;
+  background-image: radial-gradient(at 4% 36%, hsla(0,0%,100%,1) 0, transparent 53%), radial-gradient(at 100% 60%, rgb(0, 0, 0) 0, transparent 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.market-container {
+
+  display: flex;
+
+}
+.d{
+ text-align: center;
+  color: #ffffff;
+}
+
+.left-column {
+  /* padding-left: %; */
+  padding-top: 5%;
+  flex: 3; /* Take up 50% of the container width */
+  color: #ffffff;
+}
+
+.right-column {
+  padding-top: 5%;
+  color: #ffffff;
+  /* padding-right: 10%; */
+  
+  flex: 2; /*Take up 50% of the container width*/
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
