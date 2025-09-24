@@ -1,0 +1,28 @@
+{
+  "name": "zentransact-scheduler",
+  "version": "1.0.0",
+  "description": "Automated scheduler for ZenTransact scheduled transactions",
+  "main": "scheduler.js",
+  "scripts": {
+    "start": "node scheduler.js",
+    "dev": "nodemon scheduler.js",
+    "test": "node test-scheduler.js"
+  },
+  "dependencies": {
+    "ethers": "^5.7.2",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "ethereum",
+    "blockchain",
+    "scheduled-transactions",
+    "automation",
+    "web3"
+  ],
+  "author": "ZenTransact Team",
+  "license": "MIT"
+}

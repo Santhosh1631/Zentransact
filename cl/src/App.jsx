@@ -1,28 +1,11 @@
 import { useState } from 'react'
-import { Navbar,Welcome,Transactions,Market,Education,WalletBalance,Footer,TransactionHistory} from './components';
+import { Navbar,Welcome,Transactions,Market,Education,WalletBalance,Footer,TransactionHistory,ScheduledTransactions} from './components';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 const App =()=> {
-  
-
-  // return (
-  //   <div className='min-h-screen'>
-  //     <div className='gradient-bg-welcome'>
-      
-  //       {/* <Navbar/>
-  //       <Welcome/> */}
-
-  //       <TransactionHistory/>
-  //      </div>
-  //       {/* <CryptoPrice /> */}
-
-
-  //   </div>
-  // )
-
-    return (
+      return (
       <Router>
         <div className='min-h-screen'>
     <div className='gradient-bg-welcome'>
@@ -32,8 +15,7 @@ const App =()=> {
             <Route path="/market" element={<Market />} />
             <Route path="/education" element={<Education />} />
             <Route path="/wallets" element={<WalletBalance />} />
-            {/* <Route exact path="/" component={PaymentPage} /> */}
-          {/* <Route path="/transaction-successful" component={TransactionSuccessfulNotification} /> */}
+            <Route path="/schedule" element={<ScheduledTransactions />} />
           </Routes>
         </div>
         <Footer/>

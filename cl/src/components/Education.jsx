@@ -1,562 +1,604 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { 
+  FaBitcoin, FaEthereum, FaCoins, FaChartLine, FaShieldAlt, FaGlobe, 
+  FaBook, FaGraduationCap, FaLightbulb, FaDollarSign, FaNetworkWired,
+  FaRocket, FaGamepad, FaCube, FaDatabase, FaLock, FaUsers,
+  FaInfinity, FaLeaf, FaSearch
+} from 'react-icons/fa';
+import { 
+  SiBinance, SiLitecoin, SiRipple, SiCardano, SiDogecoin, SiPolkadot,
+  SiChainlink, SiSolana, SiTether, SiMonero
+} from 'react-icons/si';
 
 const Education = () => {
+  const [activeTab, setActiveTab] = useState('basics');
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const coinsPerPage = 6;
+
   const cryptocurrencies = [
     {
       name: "Bitcoin (BTC)",
-      description: "'BTC' typically refers to Bitcoin, which is a decentralized digital currency, without a central bank or single administrator, that can be sent from user to user on the peer-to-peer bitcoin network without the need for intermediaries. Transactions are verified by network nodes through cryptography and recorded in a public distributed ledger called a blockchain. Bitcoin was invented in 2008 by an unknown person or group of people using the name Satoshi Nakamoto. The currency began use in 2009 when its implementation was released as open-source software",
-      features: [
-        "Decentralization",
-        "Limited supply (21 million)",
-        "Immutable ledger"
-      ],
-      useCases: [
-        "Store of value",
-        "Medium of exchange",
-        "Digital gold"
-      ]
+      category: "Store of Value",
+      icon: <FaBitcoin className="text-orange-500 text-4xl" />,
+      description: "Bitcoin is the first and most well-known cryptocurrency, operating as a decentralized digital currency that enables peer-to-peer transactions without intermediaries.",
+      features: ["Decentralization", "Limited supply (21M)", "Proof of Work", "Immutable ledger", "Global accessibility"],
+      useCases: ["Store of value", "Digital gold", "Cross-border payments", "Investment asset", "Hedge against inflation"]
     },
     {
       name: 'Ethereum (ETH)',
-      description: 'Ethereum is a decentralized platform that enables the creation and execution of smart contracts. It is known for its use of Ether (ETH) as a cryptocurrency and plays a crucial role in the world of decentralized finance (DeFi). Ethereum provides a versatile environment for developers to build decentralized applications (DApps) and is a key player in the blockchain space.',
-      features: [
-        'Smart Contract Execution',
-        'Decentralized Applications (DApps)',
-        'Ethereum Virtual Machine (EVM)',
-        'Active Developer Community',
-        'Support for ERC-20 and ERC-721 Tokens',
-      ],
-      useCases: [
-        'Decentralized Finance (DeFi)',
-        'Non-Fungible Tokens (NFTs)',
-        'Decentralized Autonomous Organizations (DAOs)',
-        'Tokenization of Assets',
-      ],
+      category: "Smart Contract Platform",
+      icon: <FaEthereum className="text-blue-500 text-4xl" />,
+      description: 'Ethereum is a decentralized platform that enables smart contracts and decentralized applications, serving as the foundation for DeFi and Web3.',
+      features: ["Smart Contracts", "DApps Platform", "Ethereum Virtual Machine", "Proof of Stake", "DeFi Foundation"],
+      useCases: ["DeFi Protocols", "NFT Marketplace", "Smart Contracts", "Decentralized Apps", "Token Creation"]
+    },
+    {
+      name: 'Tether (USDT)',
+      category: "Stablecoin",
+      icon: <SiTether className="text-green-500 text-4xl" />,
+      description: 'Tether is a stablecoin pegged to the US Dollar, providing stability in the volatile cryptocurrency market.',
+      features: ["USD-pegged", "Price stability", "High liquidity", "Multi-chain support", "Trading pairs"],
+      useCases: ["Trading pairs", "Value preservation", "Remittances", "DeFi lending", "Cross-exchange transfers"]
     },
     {
       name: 'Binance Coin (BNB)',
-      description: 'Binance Coin is the native cryptocurrency of the Binance exchange. It holds significant value in the Binance Smart Chain (BSC) ecosystem and serves multiple purposes within the Binance platform. BNB is widely used for trading fee discounts, participating in token sales, and fueling transactions on the Binance Smart Chain.',
-      features: [
-        'Trading Fee Discounts',
-        'Binance Smart Chain (BSC)',
-        'Token Sales on Binance Launchpad',
-        'Utility within the Binance Ecosystem',
-        'Support for BEP-20 Tokens',
-      ],
-      useCases: [
-        'Trading Fee Payments',
-        'Participating in Token Sales',
-        'BSC-Based Decentralized Applications (DApps)',
-        'Staking and Yield Farming',
-      ],
-    },
-    {
-      name: 'Solana (SOL)',
-      description: 'Solana is a high-performance blockchain platform designed for decentralized applications and crypto projects. It stands out for its fast transaction throughput and low transaction costs. Solana utilizes Proof-of-History (PoH) as a consensus mechanism, enabling it to scale and support a wide range of applications.',
-      features: [
-        'High Transaction Throughput',
-        'Low Transaction Costs',
-        'Proof-of-History (PoH) Consensus',
-        'Support for Smart Contracts',
-        'Growing Ecosystem of Projects',
-      ],
-      useCases: [
-        'Decentralized Exchanges (DEX)',
-        'Blockchain Gaming',
-        'Tokenized Assets',
-        'DeFi Applications on Solana',
-      ],
+      category: "Exchange Token",
+      icon: <SiBinance className="text-yellow-500 text-4xl" />,
+      description: 'Binance Coin is the native cryptocurrency of the Binance ecosystem, powering the world\'s largest crypto exchange and BSC network.',
+      features: ["Exchange Utility", "BSC Network", "Trading Discounts", "Launchpad Access", "Burn Mechanism"],
+      useCases: ["Trading fee discounts", "Staking rewards", "DeFi on BSC", "Token sales", "Payment method"]
     },
     {
       name: 'XRP (XRP)',
-      description: 'XRP is a digital payment protocol designed to facilitate fast and cost-effective cross-border transactions. It operates on the XRP Ledger and aims to provide a seamless experience for transferring value globally. XRP is utilized by various financial institutions for its efficiency in settling payments.',
-      features: [
-        'Fast and Cost-Effective Transactions',
-        'XRP Ledger',
-        'Global Cross-Border Payments',
-        'Used by Financial Institutions',
-      ],
-      useCases: [
-        'Cross-Border Payments',
-        'Remittances',
-        'Liquidity for Financial Institutions',
-      ],
-    },
-    {
-      name: 'Tron (TRX)',
-      description: 'Tron is a blockchain platform that aims to build a decentralized internet. It focuses on providing a scalable and cost-effective solution for content creators and users. Tron features a high throughput and supports smart contracts, making it suitable for various decentralized applications and entertainment content.',
-      features: [
-        'Scalable Blockchain Platform',
-        'High Throughput',
-        'Smart Contract Support',
-        'Decentralized Applications (DApps)',
-        'Decentralized Content Distribution',
-      ],
-      useCases: [
-        'Content Creation and Distribution',
-        'Gaming and Entertainment DApps',
-        'Tokenized Assets',
-        'DeFi Applications',
-      ],
-    },
-    {
-      name: 'Dogecoin (DOGE)',
-      description: 'Dogecoin started as a meme-based cryptocurrency but has gained popularity for its active community and use in tipping and microtransactions. It features the Shiba Inu dog from the "Doge" meme as its logo. Dogecoin is often used for charitable donations and has a friendly and approachable image in the crypto space.',
-      features: [
-        'Meme-Based Cryptocurrency',
-        'Active and Enthusiastic Community',
-        'Low Transaction Fees',
-        'Microtransactions and Tipping',
-        'Participation in Memes and Internet Culture',
-      ],
-      useCases: [
-        'Charitable Donations',
-        'Tipping Content Creators',
-        'Microtransactions on Social Media',
-        'Community-driven Initiatives',
-      ],
-    },
-    {
-      name: 'Avalanche (AVAX)',
-      description: 'Avalanche is a blockchain platform designed for launching decentralized applications and custom blockchain networks. It focuses on providing high performance, scalability, and flexibility. Avalanche features a unique consensus protocol called Avalanche Consensus, which enables quick finality and low-latency transactions.',
-      features: [
-        'High Performance',
-        'Scalability',
-        'Custom Blockchain Networks',
-        'Avalanche Consensus Protocol',
-        'Interoperability with Other Blockchains',
-      ],
-      useCases: [
-        'Decentralized Finance (DeFi)',
-        'Tokenization of Assets',
-        'Custom Blockchain Development',
-        'Cross-Chain Interoperability',
-      ],
+      category: "Payment Network",
+      icon: <SiRipple className="text-blue-400 text-4xl" />,
+      description: 'XRP is designed for fast, low-cost international payments and is used by financial institutions for cross-border transfers.',
+      features: ["Fast settlements", "Low transaction costs", "Bank partnerships", "Energy efficient", "High throughput"],
+      useCases: ["Cross-border payments", "Bank settlements", "Remittances", "Liquidity provision", "Institutional transfers"]
     },
     {
       name: 'Cardano (ADA)',
-      description: 'Cardano is a blockchain platform that aims to provide a secure and scalable infrastructure for the development of decentralized applications and smart contracts. It is known for its research-driven approach and commitment to sustainability. Cardano features the Ouroboros consensus algorithm.',
-      features: [
-        'Secure and Scalable Blockchain',
-        'Research-Driven Development',
-        'Ouroboros Consensus Algorithm',
-        'Decentralized Applications (DApps)',
-        'Smart Contracts',
-      ],
-      useCases: [
-        'Decentralized Finance (DeFi)',
-        'Identity Management',
-        'Supply Chain Tracking',
-        'Governance and Voting Systems',
-      ],
+      category: "Blockchain Platform",
+      icon: <SiCardano className="text-blue-600 text-4xl" />,
+      description: 'Cardano is a proof-of-stake blockchain platform founded on peer-reviewed research and developed through evidence-based methods.',
+      features: ["Proof of Stake", "Academic research", "Sustainability", "Smart contracts", "Governance"],
+      useCases: ["Smart contracts", "DeFi applications", "Identity solutions", "Supply chain", "Voting systems"]
+    },
+    {
+      name: 'Solana (SOL)',
+      category: "High-Performance Blockchain",
+      icon: <SiSolana className="text-purple-500 text-4xl" />,
+      description: 'Solana is a high-performance blockchain supporting crypto apps and marketplaces with fast transactions and low fees.',
+      features: ["High throughput", "Low fees", "Fast finality", "Proof of History", "Developer friendly"],
+      useCases: ["DeFi protocols", "NFT marketplaces", "Web3 applications", "Gaming", "DEX platforms"]
+    },
+    {
+      name: 'Dogecoin (DOGE)',
+      category: "Meme Coin",
+      icon: <SiDogecoin className="text-yellow-400 text-4xl" />,
+      description: 'Dogecoin started as a meme but became a popular cryptocurrency for tips, donations, and micro-transactions.',
+      features: ["Community driven", "Low transaction fees", "Fast transactions", "Inflationary supply", "Social currency"],
+      useCases: ["Tips and donations", "Micro-payments", "Social media rewards", "Charitable giving", "Community projects"]
+    },
+    {
+      name: 'Polkadot (DOT)',
+      category: "Interoperability",
+      icon: <SiPolkadot className="text-pink-500 text-4xl" />,
+      description: 'Polkadot enables different blockchains to transfer messages and value in a trust-free fashion; sharing their unique features.',
+      features: ["Interoperability", "Shared security", "Parachains", "Governance", "Scalability"],
+      useCases: ["Cross-chain transfers", "Parachain auctions", "Governance voting", "Staking", "DeFi bridges"]
+    },
+    {
+      name: 'Polygon (MATIC)',
+      category: "Layer 2 Solution",
+      icon: <FaNetworkWired className="text-purple-600 text-4xl" />,
+      description: 'Polygon is a decentralized platform that provides faster and cheaper transactions on Ethereum using Layer 2 sidechains.',
+      features: ["Layer 2 scaling", "Ethereum compatible", "Low fees", "Fast transactions", "Developer tools"],
+      useCases: ["DeFi applications", "Gaming", "NFT marketplaces", "DApp scaling", "Enterprise solutions"]
     },
     {
       name: 'Litecoin (LTC)',
-      description: 'Litecoin is a peer-to-peer cryptocurrency that enables instant, near-zero-cost payments to anyone in the world. It is an open-source global payment network that is fully decentralized without any central authorities. Litecoin features faster block generation times compared to Bitcoin and uses the Scrypt hashing algorithm.',
-      features: [
-        'Fast Transaction Confirmation',
-        'Scrypt Hashing Algorithm',
-        'Decentralized',
-        'Global Payment Network',
-        'Open-Source',
-      ],
-      useCases: [
-        'Peer-to-Peer Payments',
-        'Microtransactions',
-        'Store of Value',
-        'Cryptocurrency Transactions',
-      ],
+      category: "Digital Silver",
+      icon: <SiLitecoin className="text-gray-400 text-4xl" />,
+      description: 'Litecoin is a peer-to-peer cryptocurrency created as the "silver to Bitcoin\'s gold" with faster transaction times.',
+      features: ["Fast transactions", "Low fees", "Scrypt algorithm", "Segwit support", "Atomic swaps"],
+      useCases: ["Digital payments", "Micro-transactions", "Store of value", "Remittances", "P2P transfers"]
+    },
+    {
+      name: 'Chainlink (LINK)',
+      category: "Oracle Network",
+      icon: <SiChainlink className="text-blue-500 text-4xl" />,
+      description: 'Chainlink is a decentralized oracle network that provides real-world data to smart contracts on the blockchain.',
+      features: ["Decentralized oracles", "Real-world data", "Smart contract connectivity", "Security", "Reliability"],
+      useCases: ["Price feeds", "Weather data", "Sports results", "API integration", "Cross-chain communication"]
+    },
+    {
+      name: 'Uniswap (UNI)',
+      category: "Decentralized Exchange",
+      icon: <FaChartLine className="text-pink-500 text-4xl" />,
+      description: 'Uniswap is a decentralized trading protocol known for its role in facilitating automated trading of DeFi tokens.',
+      features: ["Automated market maker", "Liquidity pools", "Decentralized trading", "Governance token", "Fee sharing"],
+      useCases: ["Token swapping", "Liquidity provision", "Yield farming", "Governance voting", "DeFi trading"]
+    },
+    {
+      name: 'Avalanche (AVAX)',
+      category: "Smart Contract Platform",
+      icon: <FaRocket className="text-red-500 text-4xl" />,
+      description: 'Avalanche is a layer one blockchain that functions as a platform for decentralized applications and custom blockchain networks.',
+      features: ["High throughput", "Low latency", "Eco-friendly", "Subnet creation", "Ethereum compatibility"],
+      useCases: ["DeFi applications", "Enterprise blockchain", "Asset tokenization", "Custom networks", "Cross-chain bridges"]
+    },
+    {
+      name: 'Shiba Inu (SHIB)',
+      category: "Meme Token",
+      icon: <FaCoins className="text-orange-400 text-4xl" />,
+      description: 'Shiba Inu is a decentralized meme token that evolved into a vibrant ecosystem with its own DEX, NFTs, and more.',
+      features: ["Community driven", "Ecosystem development", "ShibaSwap DEX", "NFT collections", "Burn mechanism"],
+      useCases: ["Community governance", "DeFi trading", "NFT marketplace", "Gaming", "Ecosystem utility"]
     },
     {
       name: 'Monero (XMR)',
-      description: 'Monero is a privacy-focused cryptocurrency that prioritizes user anonymity and security. It employs advanced cryptographic techniques to provide confidential and untraceable transactions. Monero uses a unique technology called Ring Signatures to mix transaction inputs, ensuring privacy and fungibility.',
-      features: [
-        'Privacy-Focused',
-        'Untraceable Transactions',
-        'Ring Signatures',
-        'Decentralized and Secure',
-        'Active Community',
-      ],
-      useCases: [
-        'Private Transactions',
-        'Anonymous Payments',
-        'Store of Value',
-        'Privacy Protection',
-      ],
+      category: "Privacy Coin",
+      icon: <SiMonero className="text-orange-600 text-4xl" />,
+      description: 'Monero is a privacy-focused cryptocurrency that uses ring signatures and stealth addresses to ensure transaction privacy.',
+      features: ["Privacy by default", "Untraceable transactions", "Ring signatures", "Stealth addresses", "ASIC resistance"],
+      useCases: ["Private transactions", "Confidential payments", "Anonymous transfers", "Privacy protection", "Fungible currency"]
     },
     {
-      name: 'NEO (NEO)',
-      description: 'NEO is a blockchain platform that aims to build a smart economy by incorporating digital assets, smart contracts, and a digital identity system. It provides a comprehensive solution for the digitization of assets using smart contracts and aims to create a decentralized and efficient ecosystem for the new era of the internet.',
-      features: [
-        'Digital Assets',
-        'Smart Contracts',
-        'Digital Identity',
-        'Decentralized Economy',
-        'Developer-Friendly',
-      ],
-      useCases: [
-        'Smart Contracts Development',
-        'Tokenization of Assets',
-        'Digital Identity Solutions',
-        'Decentralized Applications (DApps)',
-      ],
+      name: 'Cosmos (ATOM)',
+      category: "Blockchain Ecosystem",
+      icon: <FaGlobe className="text-indigo-500 text-4xl" />,
+      description: 'Cosmos is an ecosystem of connected blockchains that can scale and interoperate with each other.',
+      features: ["Inter-blockchain communication", "Tendermint consensus", "Cosmos SDK", "Scalability", "Sovereignty"],
+      useCases: ["Cross-chain transfers", "Custom blockchains", "DeFi protocols", "Staking", "Governance"]
     },
     {
-      name: 'Dash (DASH)',
-      description: 'Dash is a cryptocurrency that focuses on fast and low-cost transactions. It features a two-tier network with miners and masternodes, providing additional services like InstantSend and PrivateSend. Dash aims to be user-friendly, allowing individuals and businesses to transact with ease.',
-      features: [
-        'Fast and Low-Cost Transactions',
-        'Two-Tier Network',
-        'InstantSend',
-        'PrivateSend',
-        'User-Friendly',
-      ],
-      useCases: [
-        'Digital Cash Transactions',
-        'Merchant Payments',
-        'Private Transactions',
-        'Decentralized Applications (DApps)',
-      ],
+      name: 'Filecoin (FIL)',
+      category: "Decentralized Storage",
+      icon: <FaDatabase className="text-blue-400 text-4xl" />,
+      description: 'Filecoin is a decentralized storage network designed to store humanity\'s most important information.',
+      features: ["Decentralized storage", "Proof of storage", "Storage marketplace", "Data retrieval", "Incentive layer"],
+      useCases: ["File storage", "Data backup", "Content distribution", "Web3 infrastructure", "Archival storage"]
     },
     {
-      name: "Polkadot (DOT)",
-      description: "Polkadot is a multi-chain blockchain platform that enables interoperability between different blockchains. It aims to provide a framework for building and connecting decentralized applications.",
-      features: [
-        "Interoperability between blockchains",
-        "Scalability through shared security",
-        "Governance through stakeholder voting"
-      ],
-      useCases: [
-        "Cross-chain compatibility",
-        "Decentralized finance (DeFi)",
-        "Decentralized identity and authentication"
+      name: 'Aave (AAVE)',
+      category: "DeFi Protocol",
+      icon: <FaCoins className="text-purple-500 text-4xl" />,
+      description: 'Aave is an open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.',
+      features: ["Lending protocol", "Flash loans", "Interest rates", "Collateralized lending", "Governance"],
+      useCases: ["Crypto lending", "Borrowing assets", "Yield farming", "Flash loans", "DeFi strategies"]
+    },
+    {
+      name: 'The Sandbox (SAND)',
+      category: "Gaming & Metaverse",
+      icon: <FaGamepad className="text-yellow-500 text-4xl" />,
+      description: 'The Sandbox is a virtual gaming world where players can build, own, and monetize their gaming experiences.',
+      features: ["Virtual world", "NFT integration", "Play-to-earn", "User-generated content", "LAND ownership"],
+      useCases: ["Gaming", "Virtual real estate", "NFT creation", "Social experiences", "Digital assets"]
+    }
+  ];
+
+  // Filter cryptocurrencies based on search term
+  const filteredCurrencies = cryptocurrencies.filter(crypto =>
+    crypto.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    crypto.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    crypto.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCurrencies.length / coinsPerPage);
+  const startIndex = (currentPage - 1) * coinsPerPage;
+  const paginatedCurrencies = filteredCurrencies.slice(startIndex, startIndex + coinsPerPage);
+
+  const learningTopics = [
+    {
+      category: "Blockchain Basics",
+      icon: <FaBook className="text-purple-500 text-3xl" />,
+      topics: [
+        "What is Blockchain?",
+        "How Transactions Work",
+        "Mining and Consensus Mechanisms",
+        "Public vs Private Keys",
+        "Wallet Security Best Practices",
+        "Hash Functions and Cryptography",
+        "Merkle Trees and Block Structure",
+        "Network Nodes and Validation"
       ]
     },
     {
-      name: "Chainlink (LINK)",
-      description: "Chainlink is a decentralized oracle network that connects smart contracts with real-world data. It aims to enable smart contracts to securely interact with external data sources, APIs, and payment systems.",
-      features: [
-        "Decentralized oracle network",
-        "Secure data delivery",
-        "Wide range of data sources"
-      ],
-      useCases: [
-        "Price feeds for decentralized finance (DeFi)",
-        "Real-world asset tokenization",
-        "Supply chain management"
+      category: "DeFi & Smart Contracts",
+      icon: <FaGraduationCap className="text-green-500 text-3xl" />,
+      topics: [
+        "Decentralized Finance (DeFi)",
+        "Smart Contract Development",
+        "Automated Market Makers (AMM)",
+        "Yield Farming Strategies",
+        "Liquidity Mining",
+        "Flash Loans",
+        "Governance and DAOs",
+        "Lending and Borrowing Protocols",
+        "Cross-chain Bridges",
+        "DeFi Security Risks"
       ]
     },
     {
-      name: "Stellar (XLM)",
-      description: "Stellar is an open network for storing and moving money. It facilitates cross-border transactions and enables users to create, send, and trade digital representations of all forms of money.",
-      features: [
-        "Fast and low-cost transactions",
-        "Decentralized exchange",
-        "Multi-currency transactions"
-      ],
-      useCases: [
-        "Cross-border payments",
-        "Remittances",
-        "Tokenization of assets"
+      category: "Trading & Investment",
+      icon: <FaChartLine className="text-red-500 text-3xl" />,
+      topics: [
+        "Technical Analysis Fundamentals",
+        "Fundamental Analysis",
+        "Risk Management Strategies",
+        "Portfolio Diversification",
+        "Dollar Cost Averaging (DCA)",
+        "Market Psychology & Sentiment",
+        "Long-term vs Short-term Strategies",
+        "Stop Loss and Take Profit",
+        "Reading Market Trends",
+        "Tax Implications"
       ]
     },
     {
-      name: "Terra (LUNA)",
-      description: "Terra is a blockchain protocol that uses fiat-pegged stablecoins to power price-stable global payments systems. It aims to provide a scalable solution for decentralized finance (DeFi) applications.",
-      features: [
-        "Fiat-pegged stablecoins",
-        "Scalable blockchain protocol",
-        "Interoperability with other blockchains"
-      ],
-      useCases: [
-        "Decentralized finance (DeFi)",
-        "Cross-border payments",
-        "Tokenization of assets"
+      category: "Web3 & NFTs",
+      icon: <FaCube className="text-pink-500 text-3xl" />,
+      topics: [
+        "Non-Fungible Tokens (NFTs)",
+        "Web3 and Decentralization",
+        "Metaverse Platforms",
+        "Digital Identity",
+        "Creator Economy",
+        "Gaming and Play-to-Earn",
+        "Virtual Real Estate",
+        "NFT Marketplaces",
+        "Intellectual Property",
+        "Future of Digital Ownership"
       ]
     },
     {
-      name: "Uniswap (UNI)",
-      description: "Uniswap is a decentralized exchange (DEX) protocol that facilitates automated transactions between cryptocurrency tokens on the Ethereum blockchain. It operates without an order book and uses liquidity pools.",
-      features: [
-        "Automated token swaps",
-        "Liquidity pools",
-        "Decentralized governance"
-      ],
-      useCases: [
-        "Token trading",
-        "Liquidity provision",
-        "Decentralized finance (DeFi)"
-      ]
-    },
-    {
-      name: "Polygon (MATIC)",
-      description: "Polygon is a protocol and a framework for building and connecting Ethereum-compatible blockchain networks. It aims to address Ethereum's scalability issues and enable faster and cheaper transactions.",
-      features: [
-        "Scalability solutions",
-        "Interoperability with Ethereum",
-        "Developer-friendly tools"
-      ],
-      useCases: [
-        "Scalable decentralized applications (DApps)",
-        "Token transfers",
-        "Layer 2 solutions for Ethereum"
-      ]
-    },
-    {
-      name: "Algorand (ALGO)",
-      description: "Algorand is a blockchain platform that aims to provide a decentralized, scalable, and secure environment for building and deploying decentralized applications (DApps) and financial protocols.",
-      features: [
-        "Pure proof-of-stake consensus mechanism",
-        "Scalable architecture",
-        "Fast transaction speeds"
-      ],
-      useCases: [
-        "Decentralized finance (DeFi)",
-        "Asset tokenization",
-        "Secure digital identity"
-      ]
-    },
-    {
-      name: "VeChain (VET)",
-      description: "VeChain is a blockchain platform designed to enhance supply chain management and business processes. Its goal is to streamline these processes and information flow for complex supply chains through the use of distributed ledger technology (DLT).",
-      features: [
-        "Supply chain management solutions",
-        "Traceability of goods",
-        "Data authentication"
-      ],
-      useCases: [
-        "Product authenticity verification",
-        "Supply chain transparency",
-        "Anti-counterfeiting measures"
-      ]
-    },
-    {
-      name: "Filecoin (FIL)",
-      description: "Filecoin is a decentralized storage network designed to store humanity's most important information. It allows users to rent out excess storage space on their computers and get paid in FIL tokens.",
-      features: [
-        "Decentralized storage marketplace",
-        "Incentivized storage sharing",
-        "Data integrity and security"
-      ],
-      useCases: [
-        "File storage and retrieval",
-        "Data archiving",
-        "Content delivery networks (CDNs)"
-      ]
-    },
-    {
-      name: "Theta Token (THETA)",
-      description: "Theta is a decentralized video delivery network that aims to improve the quality of online video streaming and reduce the costs associated with delivering video content. It uses blockchain technology to incentivize users to share their redundant computing and bandwidth resources.",
-      features: [
-        "Decentralized video delivery",
-        "Quality streaming services",
-        "Token incentives for sharing resources"
-      ],
-      useCases: [
-        "Video streaming platforms",
-        "Content delivery networks (CDNs)",
-        "Decentralized video applications"
-      ]
-    },
-    {
-      name: "Tezos (XTZ)",
-      description: "Tezos is a blockchain platform that aims to improve upon the shortcomings of existing blockchain systems like Bitcoin and Ethereum. It features on-chain governance and formal verification of smart contracts.",
-      features: [
-        "On-chain governance",
-        "Formal verification",
-        "Liquid proof-of-stake consensus mechanism"
-      ],
-      useCases: [
-        "Decentralized finance (DeFi)",
-        "Tokenization of assets",
-        "Smart contracts"
-      ]
-    },
-    {
-      name: "Dai (DAI)",
-      description: "Dai is a decentralized stablecoin that aims to maintain a stable value relative to the US dollar. It is collateral-backed and governed by the MakerDAO protocol.",
-      features: [
-        "Decentralized stablecoin",
-        "Collateral-backed",
-        "Governance by the MakerDAO protocol"
-      ],
-      useCases: [
-        "Stable medium of exchange",
-        "Decentralized finance (DeFi)",
-        "Hedging against cryptocurrency volatility"
-      ]
-    },
-    {
-      name: "Cosmos (ATOM)",
-      description: "Cosmos is a decentralized network of independent parallel blockchains, each powered by BFT consensus algorithms like Tendermint. It aims to solve scalability, interoperability, and usability issues in blockchain ecosystems.",
-      features: [
-        "Interoperability between blockchains",
-        "Scalability solutions",
-        "Modular architecture"
-      ],
-      useCases: [
-        "Cross-chain transactions",
-        "Decentralized finance (DeFi)",
-        "Scalable decentralized applications (DApps)"
-      ]
-    },
-    {
-      name: "Aave (AAVE)",
-      description: "Aave is an open-source, non-custodial liquidity protocol that enables users to earn interest on deposits and borrow assets. It features flash loans, variable interest rates, and decentralized governance.",
-      features: [
-        "Liquidity protocol",
-        "Interest earning and borrowing",
-        "Flash loans"
-      ],
-      useCases: [
-        "Earning interest on deposits",
-        "Borrowing assets",
-        "Leveraging flash loans for arbitrage"
-      ]
-    },
-    
-    {
-      name: "SushiSwap (SUSHI)",
-      description: "SushiSwap is a decentralized cryptocurrency exchange (DEX) built on the Ethereum blockchain. It aims to provide users with a more community-oriented and decentralized alternative to traditional centralized exchanges.",
-      features: [
-        "Automated market making",
-        "Decentralized governance",
-        "Community-driven development"
-      ],
-      useCases: [
-        "Token trading",
-        "Liquidity provision",
-        "Yield farming"
-      ]
-    },
-    {
-      name: "Maker (MKR)",
-      description: "Maker is a decentralized autonomous organization (DAO) that governs the Maker Protocol, which issues the stablecoin Dai. MKR token holders govern the system, including the stability of Dai's peg to the US dollar.",
-      features: [
-        "Decentralized autonomous organization (DAO)",
-        "Stablecoin issuance",
-        "Governance by MKR token holders"
-      ],
-      useCases: [
-        "Stability governance",
-        "Collateral management",
-        "Decentralized finance (DeFi)"
-      ]
-    },
-    
-    {
-      name: "Bitcoin Cash (BCH)",
-      description: "Bitcoin Cash is a peer-to-peer electronic cash system that aims to enable fast, low-cost transactions. It emerged as a fork of Bitcoin with the goal of increasing the block size limit to improve scalability.",
-      features: [
-        "Fast and low-cost transactions",
-        "Increased block size (8 MB)",
-        "On-chain scalability"
-      ],
-      useCases: [
-        "Peer-to-peer transactions",
-        "Retail payments",
-        "Micropayments"
+      category: "Advanced Topics",
+      icon: <FaRocket className="text-indigo-500 text-3xl" />,
+      topics: [
+        "Layer 2 Solutions",
+        "Interoperability Protocols",
+        "Zero-Knowledge Proofs",
+        "Quantum Computing Threats",
+        "Central Bank Digital Currencies",
+        "Regulatory Compliance",
+        "Institutional Adoption",
+        "Environmental Impact",
+        "Scalability Trilemma",
+        "Future Innovations"
       ]
     }
   ];
 
-  // Styles
-  const containerStyle = {
-    padding: '20px',
-    fontFamily: 'Arial, sans-serif',
-    background: 'radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), radial-gradient(at 50% 0%, rgb(108, 176, 240) 0, transparent 50%), radial-gradient(at 100% 0%, #F806CC 0, transparent 50%)',
-    color: '#fff',
-  };
+  const securityTips = [
+    {
+      title: "Secure Your Private Keys",
+      description: "Never share your private keys or seed phrases. Store them offline in a hardware wallet for maximum security.",
+      icon: <FaShieldAlt className="text-blue-500 text-2xl" />
+    },
+    {
+      title: "Use Reputable Exchanges",
+      description: "Only use well-established exchanges with strong security records, insurance, and regulatory compliance.",
+      icon: <FaGlobe className="text-green-500 text-2xl" />
+    },
+    {
+      title: "Enable 2FA Everywhere",
+      description: "Always enable two-factor authentication on all your crypto accounts, wallets, and exchange platforms.",
+      icon: <FaLightbulb className="text-yellow-500 text-2xl" />
+    },
+    {
+      title: "Verify URLs and Apps",
+      description: "Always double-check website URLs and download apps only from official sources to avoid phishing attacks.",
+      icon: <FaLock className="text-red-500 text-2xl" />
+    },
+    {
+      title: "Use Hardware Wallets",
+      description: "For long-term storage, use hardware wallets that keep your private keys offline and secure.",
+      icon: <FaDatabase className="text-purple-500 text-2xl" />
+    },
+    {
+      title: "Keep Software Updated",
+      description: "Regularly update your wallet software, browser, and operating system to patch security vulnerabilities.",
+      icon: <FaRocket className="text-indigo-500 text-2xl" />
+    }
+  ];
 
-  const headingStyle = {
-    textAlign: 'center',
-    fontSize: '36px',
-    fontWeight: 'bold',
-    margin: '20px 0',
-  };
-
-  const cryptoContainerStyle = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  };
-
-  const cryptoCardStyle = {
-    width: '30%',
-    padding: '20px',
-    margin: '20px',
-    background: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: '10px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-    boxSizing: 'border-box',
-  };
-
-  const cryptoTitleStyle = {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    margin: '10px 0',
-  };
-
-  const cryptoDescriptionStyle = {
-    fontSize: '16px',
-    lineHeight: '1.5',
-    marginBottom: '20px',
-  };
-
-  const featureSectionStyle = {
-    marginBottom: '20px',
-  };
-
-  const useCaseSectionStyle = {
-    marginBottom: '20px',
-  };
-
-  const sectionHeadingStyle = {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    margin: '10px 0',
-  };
-
-  const listStyle = {
-    listStyleType: 'none',
-    margin: '0',
-    padding: '0',
-  };
-
-  const listItemStyle = {
-    fontSize: '16px',
-    marginBottom: '5px',
-  };
+  const TabButton = ({ id, label, active, onClick, icon: Icon }) => (
+    <button
+      onClick={() => onClick(id)}
+      className={`group relative px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 ${
+        active
+          ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-2xl'
+          : 'bg-white bg-opacity-10 backdrop-blur-lg border border-white border-opacity-20 text-gray-300 hover:bg-opacity-20 hover:text-white hover:shadow-xl'
+      }`}
+    >
+      <div className="flex items-center space-x-2">
+        {Icon && <Icon className="h-5 w-5" />}
+        <span>{label}</span>
+      </div>
+      {active && (
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl opacity-20 blur-xl"></div>
+      )}
+    </button>
+  );
 
   return (
-    <div style={containerStyle}>
-      <h1 style={headingStyle}>Explore Cryptocurrencies</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+      <div className="container mx-auto px-4 py-16">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center px-4 py-2 bg-white bg-opacity-10 backdrop-blur-lg rounded-full border border-white border-opacity-20 mb-6">
+            <FaGraduationCap className="h-5 w-5 text-purple-400 mr-2" />
+            <span className="text-white text-sm font-medium">Educational Platform</span>
+          </div>
+          
+          <h1 className="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            Crypto{' '}
+            <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+              Education
+            </span>{' '}
+            Hub
+          </h1>
+          
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Master the world of blockchain technology and cryptocurrencies with our comprehensive 
+            educational resources. From basics to advanced concepts, we've got you covered.
+          </p>
+        </div>
 
-      <div style={cryptoContainerStyle}>
-        {cryptocurrencies.map((crypto) => (
-          <div key={crypto.name} style={cryptoCardStyle}>
-            <h2 style={cryptoTitleStyle}>{crypto.name}</h2>
-            <p style={cryptoDescriptionStyle}>{crypto.description}</p>
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap justify-center gap-6 mb-16">
+          <TabButton 
+            id="basics" 
+            label="Crypto Basics" 
+            icon={FaBook}
+            active={activeTab === 'basics'} 
+            onClick={setActiveTab} 
+          />
+          <TabButton 
+            id="currencies" 
+            label="Popular Coins" 
+            icon={FaCoins}
+            active={activeTab === 'currencies'} 
+            onClick={setActiveTab} 
+          />
+          <TabButton 
+            id="learning" 
+            label="Learning Paths" 
+            icon={FaLightbulb}
+            active={activeTab === 'learning'} 
+            onClick={setActiveTab} 
+          />
+          <TabButton 
+            id="security" 
+            label="Security Tips" 
+            icon={FaShieldAlt}
+            active={activeTab === 'security'} 
+            onClick={setActiveTab} 
+          />
+        </div>
 
-            <div style={featureSectionStyle}>
-              <h3 style={sectionHeadingStyle}>Key Features</h3>
-              <ul style={listStyle}>
-                {crypto.features.map((feature, index) => (
-                  <li key={index} style={listItemStyle}>{feature}</li>
+      {/* Content Sections */}
+      {activeTab === 'basics' && (
+        <div className="space-y-8">
+          <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 border border-white border-opacity-20">
+            <div className="flex items-center mb-6">
+              <FaCoins className="text-gold-500 text-3xl mr-4" />
+              <h2 className="text-3xl font-bold text-white">What is Cryptocurrency?</h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  Cryptocurrency is a digital or virtual currency that uses cryptography for security. 
+                  It operates independently of a central bank and uses decentralized control through blockchain technology.
+                </p>
+                <h3 className="text-xl font-semibold text-white mb-4">Key Characteristics:</h3>
+                <ul className="space-y-2 text-gray-300">
+                  <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Decentralized</li>
+                  <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Secure</li>
+                  <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Transparent</li>
+                  <li className="flex items-center"><span className="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Immutable</li>
+                </ul>
+              </div>
+              <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl p-6 text-white">
+                <h3 className="text-xl font-semibold mb-4">Why Use Crypto?</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <FaGlobe className="text-xl mr-3 mt-1" />
+                    <span>Global accessibility without borders</span>
+                  </li>
+                  <li className="flex items-start">
+                    <FaShieldAlt className="text-xl mr-3 mt-1" />
+                    <span>Enhanced security and privacy</span>
+                  </li>
+                  <li className="flex items-start">
+                    <FaChartLine className="text-xl mr-3 mt-1" />
+                    <span>Potential for investment growth</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'currencies' && (
+        <div className="space-y-8">
+          {/* Search and Filter */}
+          <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              <div className="relative flex-1 max-w-md">
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search cryptocurrencies..."
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="w-full pl-10 pr-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <div className="text-gray-300">
+                {filteredCurrencies.length} cryptocurrencies found
+              </div>
+            </div>
+          </div>
+
+          {/* Cryptocurrency Grid */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {paginatedCurrencies.map((crypto, index) => (
+              <div key={index} className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20 hover:bg-opacity-15 transition-all">
+                <div className="flex items-center mb-4">
+                  {crypto.icon}
+                  <div className="ml-4">
+                    <h3 className="text-2xl font-bold text-white">{crypto.name}</h3>
+                    <span className="text-sm bg-purple-600 text-white px-2 py-1 rounded-full">{crypto.category}</span>
+                  </div>
+                </div>
+                <p className="text-gray-300 mb-6 leading-relaxed">{crypto.description}</p>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-3">Key Features</h4>
+                    <ul className="space-y-2">
+                      {crypto.features.slice(0, 4).map((feature, idx) => (
+                        <li key={idx} className="text-gray-300 flex items-center text-sm">
+                          <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mr-2 flex-shrink-0"></span>
+                          {feature}
+                        </li>
+                      ))}
+                      {crypto.features.length > 4 && (
+                        <li className="text-gray-400 text-sm">+{crypto.features.length - 4} more</li>
+                      )}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-3">Use Cases</h4>
+                    <ul className="space-y-2">
+                      {crypto.useCases.slice(0, 4).map((useCase, idx) => (
+                        <li key={idx} className="text-gray-300 flex items-center text-sm">
+                          <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2 flex-shrink-0"></span>
+                          {useCase}
+                        </li>
+                      ))}
+                      {crypto.useCases.length > 4 && (
+                        <li className="text-gray-400 text-sm">+{crypto.useCases.length - 4} more</li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 bg-white bg-opacity-10 text-white rounded-lg hover:bg-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Previous
+              </button>
+              
+              <div className="flex space-x-2">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-2 rounded-lg transition-all ${
+                      currentPage === page
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-white bg-opacity-10 text-gray-300 hover:bg-opacity-20'
+                    }`}
+                  >
+                    {page}
+                  </button>
                 ))}
+              </div>
+              
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 bg-white bg-opacity-10 text-white rounded-lg hover:bg-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'learning' && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {learningTopics.map((topic, index) => (
+            <div key={index} className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20 hover:bg-opacity-15 transition-all">
+              <div className="flex items-center mb-6">
+                {topic.icon}
+                <h3 className="text-lg font-bold text-white ml-3">{topic.category}</h3>
+              </div>
+              <ul className="space-y-2">
+                {topic.topics.slice(0, 6).map((item, idx) => (
+                  <li key={idx} className="text-gray-300 hover:text-white cursor-pointer transition-colors flex items-center p-2 rounded-lg hover:bg-white hover:bg-opacity-10 text-sm">
+                    <span className="w-1.5 h-1.5 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mr-3 flex-shrink-0"></span>
+                    {item}
+                  </li>
+                ))}
+                {topic.topics.length > 6 && (
+                  <li className="text-gray-400 text-xs italic pl-5">
+                    +{topic.topics.length - 6} more topics
+                  </li>
+                )}
               </ul>
             </div>
+          ))}
+        </div>
+      )}
 
-            <div style={useCaseSectionStyle}>
-              <h3 style={sectionHeadingStyle}>Use Cases</h3>
-              <ul style={listStyle}>
-                {crypto.useCases.map((useCase, index) => (
-                  <li key={index} style={listItemStyle}>{useCase}</li>
-                ))}
+      {activeTab === 'security' && (
+        <div className="space-y-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-white mb-4">Stay Safe in Crypto</h2>
+            <p className="text-xl text-gray-300">Essential security practices to protect your digital assets</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {securityTips.map((tip, index) => (
+              <div key={index} className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20 text-center hover:bg-opacity-15 transition-all">
+                <div className="flex justify-center mb-4">
+                  {tip.icon}
+                </div>
+                <h3 className="text-lg font-bold text-white mb-3">{tip.title}</h3>
+                <p className="text-gray-300 text-sm leading-relaxed">{tip.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">⚠️ Common Scams to Avoid</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <ul className="space-y-3">
+                <li>• Phishing websites and emails</li>
+                <li>• "Get rich quick" schemes</li>
+                <li>• Fake social media giveaways</li>
+                <li>• Unsolicited investment advice</li>
+              </ul>
+              <ul className="space-y-3">
+                <li>• Fake mobile apps</li>
+                <li>• Ponzi schemes and MLMs</li>
+                <li>• Romance scams involving crypto</li>
+                <li>• Fake celebrity endorsements</li>
               </ul>
             </div>
           </div>
-        ))}
+        </div>
+      )}
       </div>
     </div>
   );

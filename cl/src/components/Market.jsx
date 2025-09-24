@@ -1,282 +1,345 @@
 import React, { useState, useEffect } from 'react';
+import { FaArrowUp, FaArrowDown, FaSearch, FaSpinner, FaChartLine, FaDollarSign, FaClock } from 'react-icons/fa';
 
 function Market() {
- 
-  const headingStyle = {
-    textAlign: 'center',
-    fontSize: '36px',
-    fontWeight: 'bold',
-    margin: '20px 0',
-  };
-
-  const cryptoCardStyle = {
-    width: '50%',
-    padding: '30px',
-    margin: '20px',
-    background: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-    boxSizing: 'border-box',
-  };
-  const cryptoCardStyle1 = {
-    
-    width: '70%',
-    padding: '30px',
-    margin: '20px',
-    background: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: '20px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-    boxSizing: 'border-box',
-  };
-  
-
   const [cryptoData, setCryptoData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('market_cap');
+  const [sortOrder, setSortOrder] = useState('desc');
+
+  const cryptoList = [
+    { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC' },
+    { id: 'ethereum', name: 'Ethereum', symbol: 'ETH' },
+    { id: 'tether', name: 'Tether', symbol: 'USDT' },
+    { id: 'binancecoin', name: 'Binance Coin', symbol: 'BNB' },
+    { id: 'ripple', name: 'XRP', symbol: 'XRP' },
+    { id: 'usd-coin', name: 'USD Coin', symbol: 'USDC' },
+    { id: 'staked-ether', name: 'Lido Staked Ether', symbol: 'STETH' },
+    { id: 'cardano', name: 'Cardano', symbol: 'ADA' },
+    { id: 'solana', name: 'Solana', symbol: 'SOL' },
+    { id: 'dogecoin', name: 'Dogecoin', symbol: 'DOGE' },
+    { id: 'tron', name: 'TRON', symbol: 'TRX' },
+    { id: 'polkadot', name: 'Polkadot', symbol: 'DOT' },
+    { id: 'polygon', name: 'Polygon', symbol: 'MATIC' },
+    { id: 'litecoin', name: 'Litecoin', symbol: 'LTC' },
+    { id: 'shiba-inu', name: 'Shiba Inu', symbol: 'SHIB' },
+    { id: 'avalanche-2', name: 'Avalanche', symbol: 'AVAX' },
+    { id: 'dai', name: 'Dai', symbol: 'DAI' },
+    { id: 'chainlink', name: 'Chainlink', symbol: 'LINK' },
+    { id: 'uniswap', name: 'Uniswap', symbol: 'UNI' },
+    { id: 'bitcoin-cash', name: 'Bitcoin Cash', symbol: 'BCH' },
+    { id: 'leo-token', name: 'LEO Token', symbol: 'LEO' },
+    { id: 'stellar', name: 'Stellar', symbol: 'XLM' },
+    { id: 'monero', name: 'Monero', symbol: 'XMR' },
+    { id: 'ethereum-classic', name: 'Ethereum Classic', symbol: 'ETC' },
+    { id: 'okb', name: 'OKB', symbol: 'OKB' },
+    { id: 'cosmos', name: 'Cosmos Hub', symbol: 'ATOM' },
+    { id: 'filecoin', name: 'Filecoin', symbol: 'FIL' },
+    { id: 'hedera-hashgraph', name: 'Hedera', symbol: 'HBAR' },
+    { id: 'internet-computer', name: 'Internet Computer', symbol: 'ICP' },
+    { id: 'lido-dao', name: 'Lido DAO', symbol: 'LDO' },
+    { id: 'crypto-com-chain', name: 'Cronos', symbol: 'CRO' },
+    { id: 'vechain', name: 'VeChain', symbol: 'VET' },
+    { id: 'aptos', name: 'Aptos', symbol: 'APT' },
+    { id: 'near', name: 'NEAR Protocol', symbol: 'NEAR' },
+    { id: 'quant-network', name: 'Quant', symbol: 'QNT' },
+    { id: 'algorand', name: 'Algorand', symbol: 'ALGO' },
+    { id: 'aave', name: 'Aave', symbol: 'AAVE' },
+    { id: 'the-graph', name: 'The Graph', symbol: 'GRT' },
+    { id: 'maker', name: 'Maker', symbol: 'MKR' },
+    { id: 'fantom', name: 'Fantom', symbol: 'FTM' },
+    { id: 'arbitrum', name: 'Arbitrum', symbol: 'ARB' },
+    { id: 'optimism', name: 'Optimism', symbol: 'OP' },
+    { id: 'sandbox', name: 'The Sandbox', symbol: 'SAND' },
+    { id: 'theta', name: 'Theta Network', symbol: 'THETA' },
+    { id: 'flow', name: 'Flow', symbol: 'FLOW' },
+    { id: 'decentraland', name: 'Decentraland', symbol: 'MANA' },
+    { id: 'axie-infinity', name: 'Axie Infinity', symbol: 'AXS' },
+    { id: 'elrond-erd-2', name: 'MultiversX', symbol: 'EGLD' },
+    { id: 'tezos', name: 'Tezos', symbol: 'XTZ' },
+    { id: 'eos', name: 'EOS', symbol: 'EOS' },
+    { id: 'klaytn', name: 'Klaytn', symbol: 'KLAY' },
+    { id: 'iota', name: 'IOTA', symbol: 'MIOTA' }
+  ];
 
   useEffect(() => {
-    async function fetchCryptoData() {
-      try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,litecoin,bitcoin-cash,cardano,polkadot,chainlink,stellar,dogecoin,solana,binancecoin,monero,eos,tron,avalanche,terra,uniswap,polygon,algorand,vechain,filecoin,theta-token,tezos,dai,cosmos,aave,compound,sushiswap,maker&vs_currencies=usd&include_24hr_change=true');
-        if (!response.ok) {
-          throw new Error('Failed to fetch crypto data');
-        }
-        const data = await response.json();
-        console.log(data); // Log the fetched data
-        setCryptoData(data);
-      } catch (error) {
-        console.error('Error fetching current crypto prices:', error);
-        setError('Failed to fetch crypto data. Please try again later.');
-      }
-    }
     fetchCryptoData();
-  }, []
-  );
+    const interval = setInterval(fetchCryptoData, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, []);
 
-  return (
-      <div className='market-container'>
-    <div>
-      <h1 style={headingStyle} className='d'>Crypto Prices</h1>
-
-    </div>
-      <div className='top-item text-white text-center '>
-      </div>
-      <div className='left-column text-center'>
-      {/* <div className="p-8 sm:w-39 w-full flex flex-col justify-start blue-glassmorphism"> */}
-   
-        {/* <div style={cryptoContainerStyle}> */}
-        <div style={cryptoCardStyle}>
-          
-        {cryptoData && (
-          <>
-
-            <CryptoCard currency="Bitcoin" data={cryptoData.bitcoin} /><br />
-            <CryptoCard currency="Ethereum" data={cryptoData.ethereum} /><br />
-            <CryptoCard currency="Ripple" data={cryptoData.ripple} /><br />
-            <CryptoCard currency="Litecoin" data={cryptoData.litecoin} /><br />
-            <CryptoCard currency="Bitcoin Cash" data={cryptoData['bitcoin-cash']} /><br />
-            <CryptoCard currency="Cardano" data={cryptoData.cardano} /><br />
-            <CryptoCard currency="Polkadot" data={cryptoData.polkadot} /><br />
-            <CryptoCard currency="Chainlink" data={cryptoData.chainlink} /><br />
-            <CryptoCard currency="Stellar" data={cryptoData.stellar} /><br />
-            <CryptoCard currency="Dogecoin" data={cryptoData.dogecoin} /><br />
-            <CryptoCard currency="Solana" data={cryptoData.solana} /><br />
-            <CryptoCard currency="Binance Coin" data={cryptoData.binancecoin} /><br />
-            <CryptoCard currency="Monero" data={cryptoData.monero} /><br />
-            {/* <CryptoCard currency="EOS.IO" data={cryptoData.eos} /><br /> */}
-            <CryptoCard currency="TRON" data={cryptoData.tron} /><br />
-            
-          </>
-        )}
-      {/* </div> */}
-      </div>
-    
-      </div>
-     
-      <div className='right-column text-center'>
-        
-          {/* <div style={cryptoContainerStyle}> */}
-        <div style={cryptoCardStyle1}>
-        {/* <div className="p-8 sm:w-31 w-full flex flex-col justify-start blue-glassmorphism"> */}
-        {cryptoData && (
-          <>
-            <CryptoCard currency="Avalanche" data={cryptoData.avalanche} /><br />
-            <CryptoCard currency="Terra" data={cryptoData.terra} /><br />
-            <CryptoCard currency="Uniswap" data={cryptoData.uniswap} /><br />
-            <CryptoCard currency="Polygon" data={cryptoData.polygon} /><br />
-            <CryptoCard currency="Algorand" data={cryptoData.algorand} /><br />
-            <CryptoCard currency="VeChain" data={cryptoData.vechain} /><br />
-            <CryptoCard currency="Filecoin" data={cryptoData.filecoin} /><br />
-            <CryptoCard currency="Theta Token" data={cryptoData['theta-token']} /><br />
-            <CryptoCard currency="Tezos" data={cryptoData.tezos} /><br />
-            <CryptoCard currency="Dai" data={cryptoData.dai} /><br />
-            <CryptoCard currency="Cosmos" data={cryptoData.cosmos} /><br />
-            <CryptoCard currency="Aave" data={cryptoData.aave} /><br />
-            <CryptoCard currency="Compound" data={cryptoData.compound} /><br />
-            <CryptoCard currency="SushiSwap" data={cryptoData.sushiswap} /><br />
-            <CryptoCard currency="Maker" data={cryptoData.maker} /><br />
-          </>
-        )}
-   
-      </div>
-      {/* </div> */}
-      </div>
-    </div>
-  );
-}
-
-function CryptoCard({ currency, data }) {
-  const [percentageChange, setPercentageChange] = useState(null);
-  const [changeColor, setChangeColor] = useState('black');
-  const [changeSymbol, setChangeSymbol] = useState('');
-
-  useEffect(() => {
-    if (data) {
-      const change = data.usd_24h_change.toFixed(2);
-      setPercentageChange(change);
-      // Determine color and symbol based on sign of the percentage change
-      if (change > 0) {
-        setChangeColor('#33ff00');
-        setChangeSymbol('+');
-      } else if (change < 0) {
-        setChangeColor('red');
-        setChangeSymbol('-');
+  const fetchCryptoData = async () => {
+    try {
+      setLoading(true);
+      const ids = cryptoList.map(crypto => crypto.id).join(',');
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h`
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch crypto data');
       }
+      
+      const data = await response.json();
+      setCryptoData(data);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching crypto data:', error);
+      setError('Failed to fetch crypto data. Please try again later.');
+    } finally {
+      setLoading(false);
     }
-  }, [data]);
-
-  const priceStyle = {
-    fontSize: '1.2em',
-    color: 'rgb(144, 238, 144)',
   };
 
-  const changeStyle = {
-    color: changeColor,
+  const formatPrice = (price) => {
+    if (price >= 1) {
+      return `$${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    } else {
+      return `$${price.toFixed(6)}`;
+    }
   };
+
+  const formatMarketCap = (marketCap) => {
+    if (marketCap >= 1e12) {
+      return `$${(marketCap / 1e12).toFixed(2)}T`;
+    } else if (marketCap >= 1e9) {
+      return `$${(marketCap / 1e9).toFixed(2)}B`;
+    } else if (marketCap >= 1e6) {
+      return `$${(marketCap / 1e6).toFixed(2)}M`;
+    } else {
+      return `$${marketCap.toLocaleString()}`;
+    }
+  };
+
+  const formatVolume = (volume) => {
+    if (volume >= 1e9) {
+      return `$${(volume / 1e9).toFixed(2)}B`;
+    } else if (volume >= 1e6) {
+      return `$${(volume / 1e6).toFixed(2)}M`;
+    } else {
+      return `$${volume.toLocaleString()}`;
+    }
+  };
+
+  const filteredData = cryptoData?.filter(coin =>
+    coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const sortedData = filteredData?.sort((a, b) => {
+    let aValue = a[sortBy];
+    let bValue = b[sortBy];
+    
+    if (sortBy === 'price_change_percentage_24h') {
+      aValue = a.price_change_percentage_24h || 0;
+      bValue = b.price_change_percentage_24h || 0;
+    }
+    
+    if (sortOrder === 'asc') {
+      return aValue > bValue ? 1 : -1;
+    } else {
+      return aValue < bValue ? 1 : -1;
+    }
+  });
+
+  const MarketOverview = () => {
+    if (!cryptoData) return null;
+    
+    const totalMarketCap = cryptoData.reduce((sum, coin) => sum + (coin.market_cap || 0), 0);
+    const totalVolume = cryptoData.reduce((sum, coin) => sum + (coin.total_volume || 0), 0);
+    const avgChange = cryptoData.reduce((sum, coin) => sum + (coin.price_change_percentage_24h || 0), 0) / cryptoData.length;
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-blue-100 text-sm">Total Market Cap</p>
+              <p className="text-2xl font-bold">{formatMarketCap(totalMarketCap)}</p>
+            </div>
+            <FaDollarSign className="text-3xl text-blue-200" />
+          </div>
+        </div>
+        
+        <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-green-100 text-sm">24h Volume</p>
+              <p className="text-2xl font-bold">{formatVolume(totalVolume)}</p>
+            </div>
+            <FaChartLine className="text-3xl text-green-200" />
+          </div>
+        </div>
+        
+        <div className={`bg-gradient-to-r ${avgChange >= 0 ? 'from-green-600 to-emerald-600' : 'from-red-600 to-pink-600'} rounded-2xl p-6 text-white`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-100 text-sm">Avg 24h Change</p>
+              <p className="text-2xl font-bold flex items-center">
+                {avgChange >= 0 ? <FaArrowUp className="mr-2" /> : <FaArrowDown className="mr-2" />}
+                {Math.abs(avgChange).toFixed(2)}%
+              </p>
+            </div>
+            <FaClock className="text-3xl text-gray-200" />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (loading && !cryptoData) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <FaSpinner className="animate-spin text-4xl text-white mb-4 mx-auto" />
+            <p className="text-white text-xl">Loading market data...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <div className="bg-red-600 bg-opacity-20 border border-red-600 rounded-2xl p-8">
+            <p className="text-red-400 text-xl">{error}</p>
+            <button 
+              onClick={fetchCryptoData}
+              className="mt-4 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className='crypto-card'>
-      <h2>{currency} Price (USD)</h2>
-      <p style={priceStyle}>{data ? `$${data.usd}` : 'Loading...'}</p>
-      {percentageChange && (
-        <p> 24h  : <span style={changeStyle}>{changeSymbol}{Math.abs(percentageChange)}%</span></p>
-      )}
+    <div className="container mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          Crypto Market
+        </h1>
+        <p className="text-xl text-gray-300">
+          Real-time cryptocurrency prices and market data
+        </p>
+      </div>
+
+      {/* Market Overview */}
+      <MarketOverview />
+
+      {/* Search and Filter */}
+      <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white border-opacity-20">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="relative flex-1 max-w-md">
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search cryptocurrencies..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div className="flex gap-2">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="market_cap" className="bg-gray-800">Market Cap</option>
+              <option value="current_price" className="bg-gray-800">Price</option>
+              <option value="price_change_percentage_24h" className="bg-gray-800">24h Change</option>
+              <option value="total_volume" className="bg-gray-800">Volume</option>
+            </select>
+            
+            <button
+              onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg transition-colors flex items-center"
+            >
+              {sortOrder === 'asc' ? <FaArrowUp /> : <FaArrowDown />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Crypto Table */}
+      <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl border border-white border-opacity-20 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-white bg-opacity-10">
+              <tr>
+                <th className="text-left py-4 px-6 text-gray-300 font-medium">#</th>
+                <th className="text-left py-4 px-6 text-gray-300 font-medium">Name</th>
+                <th className="text-right py-4 px-6 text-gray-300 font-medium">Price</th>
+                <th className="text-right py-4 px-6 text-gray-300 font-medium">24h</th>
+                <th className="text-right py-4 px-6 text-gray-300 font-medium hidden md:table-cell">Market Cap</th>
+                <th className="text-right py-4 px-6 text-gray-300 font-medium hidden lg:table-cell">Volume</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedData?.map((coin, index) => (
+                <tr key={coin.id} className="border-t border-white border-opacity-10 hover:bg-white hover:bg-opacity-5 transition-colors">
+                  <td className="py-4 px-6 text-gray-300">{coin.market_cap_rank}</td>
+                  <td className="py-4 px-6">
+                    <div className="flex items-center">
+                      <img src={coin.image} alt={coin.name} className="w-8 h-8 rounded-full mr-3" />
+                      <div>
+                        <p className="text-white font-medium">{coin.name}</p>
+                        <p className="text-gray-400 text-sm">{coin.symbol.toUpperCase()}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-4 px-6 text-right text-white font-mono">
+                    {formatPrice(coin.current_price)}
+                  </td>
+                  <td className={`py-4 px-6 text-right font-medium ${
+                    coin.price_change_percentage_24h >= 0 ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    <div className="flex items-center justify-end">
+                      {coin.price_change_percentage_24h >= 0 ? (
+                        <FaArrowUp className="mr-1 text-xs" />
+                      ) : (
+                        <FaArrowDown className="mr-1 text-xs" />
+                      )}
+                      {Math.abs(coin.price_change_percentage_24h || 0).toFixed(2)}%
+                    </div>
+                  </td>
+                  <td className="py-4 px-6 text-right text-gray-300 font-mono hidden md:table-cell">
+                    {formatMarketCap(coin.market_cap)}
+                  </td>
+                  <td className="py-4 px-6 text-right text-gray-300 font-mono hidden lg:table-cell">
+                    {formatVolume(coin.total_volume)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Last Updated */}
+      <div className="text-center mt-6">
+        <p className="text-gray-400 text-sm">
+          Data updates every minute • Powered by CoinGecko API
+        </p>
+        {loading && (
+          <div className="flex items-center justify-center mt-2">
+            <FaSpinner className="animate-spin mr-2" />
+            <span className="text-gray-400 text-sm">Updating...</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default Market;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { FaArrowRight } from 'react-icons/fa';
-
-// function Market() {
-//   const headingStyle = {
-//     textAlign: 'center',
-//     fontSize: '30px',
-//     fontWeight: 'bold',
-//     margin: '20px 0',
-//   };
-  
-//   const [cryptoData, setCryptoData] = useState(null);
-//   const [error, setError] = useState(null);
-  
-
-//   useEffect(() => {
-//     async function fetchCryptoData() {
-//       try {
-//         const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,litecoin,bitcoin-cash,cardano,polkadot,chainlink,stellar,dogecoin,solana,binancecoin,monero,eos,tron&vs_currencies=usd');
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch crypto data');
-//         }
-//         const data = await response.json();
-//         console.log(data); // Log the fetched data
-//         setCryptoData(data);
-//       } catch (error) {
-//         console.error('Error fetching current crypto prices:', error);
-//         setError('Failed to fetch crypto data. Please try again later.');
-//       }
-//     }
-//     fetchCryptoData();
-//   }, []
- 
-  
-//   );
-
-//   return (
-//     <div className='market-container'>
-//       <div className='top-item text-white text-center d'>
-//         <h1 style={headingStyle}>Crypto Prices</h1>
-//       </div>
-//       <div className='left-column'>
-//         {cryptoData && (
-//           <>
-//             <CryptoCard currency="Bitcoin" price={cryptoData.bitcoin && cryptoData.bitcoin.usd} /><br />
-//             <CryptoCard currency="Ethereum" price={cryptoData.ethereum && cryptoData.ethereum.usd} /><br />
-//             <CryptoCard currency="Ripple" price={cryptoData.ripple && cryptoData.ripple.usd} /><br />
-//             <CryptoCard currency="Litecoin" price={cryptoData.litecoin && cryptoData.litecoin.usd} /><br />
-//             <CryptoCard currency="Bitcoin Cash" price={cryptoData['bitcoin-cash'] && cryptoData['bitcoin-cash'].usd} /><br />
-//             <CryptoCard currency="Cardano" price={cryptoData.cardano && cryptoData.cardano.usd} /><br />
-//             <CryptoCard currency="Polkadot" price={cryptoData.polkadot && cryptoData.polkadot.usd} /><br />
-//           </>
-//         )}
-//       </div>
-//       <div className='right-column'>
-//         {cryptoData && (
-//           <>
-//             <CryptoCard currency="Chainlink" price={cryptoData.chainlink && cryptoData.chainlink.usd} /><br />
-//             <CryptoCard currency="Stellar" price={cryptoData.stellar && cryptoData.stellar.usd} /><br />
-//             <CryptoCard currency="Dogecoin" price={cryptoData.dogecoin && cryptoData.dogecoin.usd} /><br />
-//             <CryptoCard currency="Solana" price={cryptoData.solana && cryptoData.solana.usd} /><br />
-//             <CryptoCard currency="Binance Coin" price={cryptoData.binancecoin && cryptoData.binancecoin.usd} /><br />
-//             <CryptoCard currency="Monero" price={cryptoData.monero && cryptoData.monero.usd} /><br />
-//             <CryptoCard currency="EOS.IO" price={cryptoData.eos && cryptoData.eos.usd} /><br />
-//             <CryptoCard currency="TRON" price={cryptoData.tron && cryptoData.tron.usd} /><br />
-//           </>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// function CryptoCard({ currency, price }) {
-//   const [percentageChange, setPercentageChange] = useState(null);
-
-//   useEffect(() => {
-//     async function fetchPercentageChange() {
-//       try {
-//         const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${currency.toLowerCase()}&vs_currencies=usd`);
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch percentage change data');
-//         }
-//         const data = await response.json();
-//         console.log(data); // Log the fetched data
-//         const currentPrice = data[currency.toLowerCase()].usd;
-//         // Calculate percentage change
-//         const change = (((currentPrice - price) / price) * 100).toFixed(2);
-//         setPercentageChange(change);
-//       } catch (error) {
-//         console.error(`Error fetching percentage change for ${currency}:`, error);
-//         setPercentageChange('N/A');
-//       }
-//     }
-//     fetchPercentageChange();
-//   }, [currency, price]);
-
-//   const priceStyle = {
-//     fontSize: '1.2em',
-//     color: 'rgb(144, 238, 144)',
-//   };
-
-//   return (
-//     <div className='crypto-card'>
-//       <h2>{currency} Price (USD)</h2>
-//       <p style={priceStyle}>{price ? `$${price}` : 'Loading...'}</p>
-//       {percentageChange && (
-//         <p>Daily Change: {percentageChange}%</p>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Market;

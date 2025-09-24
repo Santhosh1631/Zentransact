@@ -4,8 +4,16 @@ module.exports = {
   solidity: '0.8.0',
   networks: {
     development: {
-      url: 'http://127.0.0.1:7545', // Assuming Ganache runs locally on default port 8545
-      accounts: ['115d3578b94461b21616231fd509aefbb3a40b6956b39d4d416bf1618915bbad'], // Replace with your MetaMask private keys
+      url: 'http://127.0.0.1:7545',
+      accounts: ['0xbc7500ea2c2e618d6a7753f9b6060304a948795f5d6041fc0fcff5f549dc31b4'], // Replace with your MetaMask private keys
     },
+    localhost: {
+      url: 'http://127.0.0.1:7545',
+      accounts: ['0xbc7500ea2c2e618d6a7753f9b6060304a948795f5d6041fc0fcff5f549dc31b4'],
     },
-  };
+    ganache: {
+      url: 'http://127.0.0.1:7545',
+      accounts: ['0xbc7500ea2c2e618d6a7753f9b6060304a948795f5d6041fc0fcff5f549dc31b4'],
+    },
+  },
+};
