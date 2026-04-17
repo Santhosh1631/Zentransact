@@ -105,8 +105,8 @@ const Footer = () => (
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
                   <FaEnvelope className="h-4 w-4 text-white" />
                 </div>
-                <a href="mailto:srisan3012@gmail.com" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
-                  info@zentransact.com
+                <a href="mailto:santhoshkumarramesh16@gmail.com" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                  santhoshkumarramesh16@gmail.com
                 </a>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">

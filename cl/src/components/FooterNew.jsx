@@ -101,8 +101,8 @@ const FooterNew = () => {
             <h3 className="text-white text-lg font-semibold">Get in Touch</h3>
             <div className="flex items-center space-x-3 bg-white bg-opacity-5 backdrop-blur-lg rounded-xl p-4 border border-white border-opacity-10">
               <FaEnvelope className="h-5 w-5 text-purple-400" />
-              <a href="mailto:info@zentransact.com" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm">
-                info@zentransact.com
+              <a href="mailto:santhoshkumarramesh16@gmail.com" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm">
+                santhoshkumarramesh16@gmail.com
               </a>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
