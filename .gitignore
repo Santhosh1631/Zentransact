@@ -1,0 +1,33 @@
+# Node
+node_modules/
+**/node_modules/
+
+# Build outputs
+cl/dist/
+sc/artifacts/
+sc/cache/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS/Editor
+.DS_Store
+.vscode/

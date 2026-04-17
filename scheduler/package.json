@@ -1,27 +1,19 @@
 {
   "name": "zentransact-scheduler",
   "version": "1.0.0",
-  "description": "Automated scheduler for ZenTransact scheduled transactions",
-  "main": "scheduler.js",
+  "description": "Flask API service for ZenTransact scheduler backend",
+  "main": "app.py",
   "scripts": {
-    "start": "node scheduler.js",
-    "dev": "nodemon scheduler.js",
-    "test": "node test-scheduler.js"
+    "start": "python app.py",
+    "dev": "python app.py"
   },
-  "dependencies": {
-    "ethers": "^5.7.2",
-    "node-cron": "^3.0.3",
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "keywords": [
-    "ethereum",
-    "blockchain",
-    "scheduled-transactions",
-    "automation",
-    "web3"
+    "flask",
+    "api",
+    "scheduler",
+    "backend"
   ],
   "author": "ZenTransact Team",
   "license": "MIT"

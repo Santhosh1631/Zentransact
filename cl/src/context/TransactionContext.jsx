@@ -13,17 +13,24 @@ export const TransactionsProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [transactionsCount, setTransactionsCount] = useState(localStorage.getItem('transactionCount'));
 
+  const getEthereum = () => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    return window.ethereum || null;
+  };
+
   const handleChange = (e, name) => {
     setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
 
   const getEthereumContract = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) {
         throw new Error("Ethereum object not available. Please make sure MetaMask is installed and your wallet is connected.");
       }
-
-      await ethereum.request({ method: "eth_requestAccounts" });
 
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
@@ -37,6 +44,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const checkIfWalletIsConnect = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return alert("Please install MetaMask.");
 
       const accounts = await ethereum.request({ method: "eth_accounts" });
@@ -54,6 +62,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const connectWallet = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return alert("Please install MetaMask.");
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
@@ -66,6 +75,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const getAllTransactions = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return [];
       const transactionsContract = await getEthereumContract();
       const availableTransactions = await transactionsContract.getAllTransactions();
@@ -78,6 +88,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const sendTransaction = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return alert("Please install MetaMask.");
       const { addressTo, amount, message } = formData;
 
@@ -133,6 +144,7 @@ export const TransactionsProvider = ({ children }) => {
   const scheduleTransaction = async (addressTo, amount, message, scheduledTimestamp) => {
     try {
       console.log("🔧 scheduleTransaction called with:", { addressTo, amount, message, scheduledTimestamp });
+      const ethereum = getEthereum();
       
       if (!ethereum) {
         console.error("❌ Ethereum object not found");
@@ -197,6 +209,7 @@ export const TransactionsProvider = ({ children }) => {
   const getUserScheduledTransactions = async (userAddress) => {
     try {
       console.log("🔍 Fetching scheduled transactions for:", userAddress);
+      const ethereum = getEthereum();
       if (!ethereum) {
         console.log("❌ No ethereum object");
         return [];
@@ -234,6 +247,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const getAllScheduledTransactions = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return [];
       const transactionsContract = await getEthereumContract();
       const allScheduled = await transactionsContract.getAllScheduledTransactions();
@@ -246,6 +260,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const getPendingScheduledTransactions = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return [];
       const transactionsContract = await getEthereumContract();
       const pending = await transactionsContract.getPendingScheduledTransactions();
@@ -258,6 +273,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const getExecutableTransactions = async () => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) return [];
       const transactionsContract = await getEthereumContract();
       const executable = await transactionsContract.getExecutableTransactions();
@@ -270,6 +286,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const executeScheduledTransaction = async (scheduleId) => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) throw new Error("Please install MetaMask.");
       
       const transactionsContract = await getEthereumContract();
@@ -294,6 +311,7 @@ export const TransactionsProvider = ({ children }) => {
 
   const cancelScheduledTransaction = async (scheduleId) => {
     try {
+      const ethereum = getEthereum();
       if (!ethereum) throw new Error("Please install MetaMask.");
       
       const transactionsContract = await getEthereumContract();
@@ -318,6 +336,27 @@ export const TransactionsProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletIsConnect();
+
+    const ethereum = getEthereum();
+    if (!ethereum) {
+      return;
+    }
+
+    const handleAccountsChanged = (accounts) => {
+      setCurrentAccount(accounts?.[0] || "");
+    };
+
+    const handleChainChanged = () => {
+      checkIfWalletIsConnect();
+    };
+
+    ethereum.on("accountsChanged", handleAccountsChanged);
+    ethereum.on("chainChanged", handleChainChanged);
+
+    return () => {
+      ethereum.removeListener("accountsChanged", handleAccountsChanged);
+      ethereum.removeListener("chainChanged", handleChainChanged);
+    };
   }, []);
 
   return (

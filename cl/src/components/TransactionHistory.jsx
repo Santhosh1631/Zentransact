@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { contractABI, contractAddress } from "../utils/constants";
+import { contractABI, contractAddress, rpcUrl } from "../utils/constants";
 const TransactionHistory = () => {
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const provider = new ethers.providers.JsonRpcProvider(); // Connect to your Ethereum node
+                                const provider = rpcUrl
+                                    ? new ethers.providers.JsonRpcProvider(rpcUrl)
+                                    : new ethers.providers.JsonRpcProvider();
                 const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
                 // Call the smart contract function to retrieve all transactions
@@ -21,7 +23,7 @@ const TransactionHistory = () => {
         };
 
         fetchTransactions();
-    }, [contractAddress, contractABI]);
+    }, []);
 
     return (
         <div>

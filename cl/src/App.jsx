@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Navbar,Welcome,Transactions,Market,Education,WalletBalance,Footer,TransactionHistory,ScheduledTransactions} from './components';
+import { Navbar, Welcome, Market, Education, WalletBalance, Footer, ScheduledTransactions } from './components';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 

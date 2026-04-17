@@ -15,7 +15,7 @@ function WalletBalance() {
             if (currentAccount) {
                 try {
                     setLoading(true);
-                    if (window.ethereum) {
+                    if (typeof window !== "undefined" && window.ethereum) {
                         const provider = new ethers.providers.Web3Provider(window.ethereum);
                         const contract = new ethers.Contract(contractAddress, contractABI, provider);
                         
