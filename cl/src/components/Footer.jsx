@@ -26,13 +26,13 @@ const Footer = () => (
               <a href="#" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 <FaTwitter className="h-5 w-5 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a href="#" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
+              <a href="https://discord.com/channels/1494550170493255791/1494550171474858227" target="_blank" rel="noreferrer" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 <FaDiscord className="h-5 w-5 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a href="#" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
+              <a href="https://t.me/+ueETo-v5WuQxZjVl" target="_blank" rel="noreferrer" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 <FaTelegram className="h-5 w-5 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
-              <a href="#" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
+              <a href="https://github.com/Santhosh1631" target="_blank" rel="noreferrer" className="group w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 <FaGithub className="h-5 w-5 text-white group-hover:scale-110 transition-transform duration-300" />
               </a>
             </div>

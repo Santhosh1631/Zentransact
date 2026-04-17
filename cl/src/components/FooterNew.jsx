@@ -25,13 +25,13 @@ const FooterNew = () => {
               <a href="#" aria-label="Twitter" className="text-gray-300 hover:text-white transition-colors">
                 <FaTwitter className="h-5 w-5" />
               </a>
-              <a href="#" aria-label="Discord" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://discord.com/channels/1494550170493255791/1494550171474858227" target="_blank" rel="noreferrer" aria-label="Discord" className="text-gray-300 hover:text-white transition-colors">
                 <FaDiscord className="h-5 w-5" />
               </a>
-              <a href="#" aria-label="Telegram" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://t.me/+ueETo-v5WuQxZjVl" target="_blank" rel="noreferrer" aria-label="Telegram" className="text-gray-300 hover:text-white transition-colors">
                 <FaTelegram className="h-5 w-5" />
               </a>
-              <a href="#" aria-label="GitHub" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://github.com/Santhosh1631" target="_blank" rel="noreferrer" aria-label="GitHub" className="text-gray-300 hover:text-white transition-colors">
                 <FaGithub className="h-5 w-5" />
               </a>
             </div>
